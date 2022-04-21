@@ -1,0 +1,111 @@
+find complexity
+find way of writing down state of the game and pawns (type of pawns)
+define goals for alghotim (rules for moving pawns and points for specyfic goals)
+write alghoritm choosing best move
+
+player ai
+player user
+
+gameState 1.0
+
+ai tryMove => gameState 1.1
+user has 8 possible answers
+user chooses move based on best outcome result in gameState 1.1 => gameState 1.2
+ai chooses best move based on gameState 1.2. For each move compares gameState 1.3 with 1.6
+user chooses best move based on comparison of state 1.3 and 1.6. Returns best result for user. Sets moves D, E, F.
+ 
+
+
+
+
+
+move A
+move B
+move C
+move D
+move E
+move F
+
+
+ai try all moves => gameState 1.1
+user try all moves => gameState 1.2
+ai try all moves => gameState 1.3
+user finds best result between 1.3 and 1.6 and return result and moves D, E, F
+ai chooses move C based on worst best result in previous step. returns results! and gameState 1.3 with paths C, D, E, F.
+user chooses move B based on comparison of state 1.1 and state 1.6 that is outcome of path C, D, E, F. Chooses best results! 
+and returns gameState 1.2 with paths B, C, D, E, F.
+ai chooses best move A based on comparison of state 1.0 and 1.6 that is outcome of path B, C, D, E, F. Chooses best result and move A
+
+
+
+gameState - object with fields (A1,A3...) each filed has properties with:
+-isFree
+-hasPawnAi
+-hasPawnUser
+-rowNumber
+
+
+aiPawns - array
+userPawns - array
+aiQueens - array
+userQueens - array
+
+
+
+Goals for alghoritm:
+-add points for moving forward
+-add points for removing opponents pawns
+-add points for promoting to queen
+-add points when queen is moving backwards and aprochaing opponets pawns
+
+
+let gameState = {
+    A1: {
+        isFree: false,
+        hasAiPawn: true,
+        hasUserPawn: false,
+        rowNumber: 1,
+        moveOptions: []
+    },
+    C1: {
+        isFree: false,
+        hasAiPawn: true,
+        hasUserPawn: false,
+        rowNumber: 1,
+        moveOptions: []
+    },
+    E1: {},
+    G1: {},
+    B2: {
+        isFree: false,
+        hasAiPawn: true,
+        hasUserPawn: false,
+        rowNumber: 1,
+        moveOptions: []
+    },
+    D2: {
+        isFree: false,
+        hasAiPawn: true,
+        hasUserPawn: false,
+        rowNumber: 1,
+        moveOptions: []
+    },
+    F2: {},
+    H2: {},
+}
+
+gameState.C1.moveOptions = [gameState.B2, gameState.D2]
+
+let aiPawns = [];
+
+
+let modifyGameState = () => {
+    console.log(gameState.C1.moveOptions[1]);
+    gameState.D2.isFree = true;
+    console.log(gameState.C1.moveOptions[1]);
+
+};
+
+
+modifyGameState();
+
