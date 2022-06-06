@@ -801,7 +801,8 @@ let gameState = new GameState(
 
 
 let chooseSide = () => {
-    let coinflip = Math.floor(Math.random() * 2)
+    //let coinflip = Math.floor(Math.random() * 2)
+    let coinflip = 1
     if (coinflip === 0) {
         aiPlayer = "white";
         userPlayer = "black";
@@ -969,6 +970,44 @@ let calculateAiResult = (player, gameStateCalc) => {
                 aiResult += 16 
             }
         }
+
+        if (gameStateCalc[key].hasAiKing && player === "white") {
+            if (gameStateCalc[key].rowNumber === 1) {
+                aiResult += 31 
+            } else if (gameStateCalc[key].rowNumber === 2) {
+                aiResult += 30 
+            } else if (gameStateCalc[key].rowNumber === 3) {
+                aiResult += 29 
+            } else if (gameStateCalc[key].rowNumber === 4) {
+                aiResult += 28 
+            } else if (gameStateCalc[key].rowNumber === 5) {
+                aiResult += 27 
+            } else if (gameStateCalc[key].rowNumber === 6) {
+                aiResult += 26 
+            } else if (gameStateCalc[key].rowNumber === 7) {
+                aiResult += 25 
+            } else if (gameStateCalc[key].rowNumber === 8) {
+                aiResult += 24 
+            }
+        } else if (gameStateCalc[key].hasAiKing && player === "black") {
+            if (gameStateCalc[key].rowNumber === 8) {
+                aiResult += 31 
+            } else if (gameStateCalc[key].rowNumber === 7) {
+                aiResult += 30 
+            } else if (gameStateCalc[key].rowNumber === 6) {
+                aiResult += 29 
+            } else if (gameStateCalc[key].rowNumber === 5) {
+                aiResult += 28 
+            } else if (gameStateCalc[key].rowNumber === 4) {
+                aiResult += 27 
+            } else if (gameStateCalc[key].rowNumber === 3) {
+                aiResult += 26 
+            } else if (gameStateCalc[key].rowNumber === 2) {
+                aiResult += 25 
+            } else if (gameStateCalc[key].rowNumber === 1) {
+                aiResult += 24 
+            }
+        }
     }
     
 }
@@ -1012,75 +1051,47 @@ let calculateUserResult = (player, gameStateCalc) => {
                 userResult += 16 
             }
         }
+
+        if (gameStateCalc[key].hasUserKing && player === "white") {
+            if (gameStateCalc[key].rowNumber === 1) {
+                userResult += 31 
+            } else if (gameStateCalc[key].rowNumber === 2) {
+                userResult += 30 
+            } else if (gameStateCalc[key].rowNumber === 3) {
+                userResult += 29 
+            } else if (gameStateCalc[key].rowNumber === 4) {
+                userResult += 28 
+            } else if (gameStateCalc[key].rowNumber === 5) {
+                userResult += 27 
+            } else if (gameStateCalc[key].rowNumber === 6) {
+                userResult += 26 
+            } else if (gameStateCalc[key].rowNumber === 7) {
+                userResult += 25 
+            } else if (gameStateCalc[key].rowNumber === 8) {
+                userResult += 24 
+            }
+        } else if (gameStateCalc[key].hasUserKing && player === "black") {
+            if (gameStateCalc[key].rowNumber === 8) {
+                userResult += 31 
+            } else if (gameStateCalc[key].rowNumber === 7) {
+                userResult += 30 
+            } else if (gameStateCalc[key].rowNumber === 6) {
+                userResult += 29 
+            } else if (gameStateCalc[key].rowNumber === 5) {
+                userResult += 28 
+            } else if (gameStateCalc[key].rowNumber === 4) {
+                userResult += 27 
+            } else if (gameStateCalc[key].rowNumber === 3) {
+                userResult += 26 
+            } else if (gameStateCalc[key].rowNumber === 2) {
+                userResult += 25 
+            } else if (gameStateCalc[key].rowNumber === 1) {
+                userResult += 24 
+            }
+        }
     }
 }
 
-
-let compareMoves = (nextMoveFuncForced, nextMoveFuncNoForced, firstObj, secondObj, type) => {
-
-
-    
-    let returnObj = {
-        isChange: false,
-        newValue: null,
-    }
-    let continuationFirstValue;
-    let continuationSecondValue;
-    let continuationOfFirstNoForced;
-    let continuationOfSecondNoForced;
-
-    let continuationOfFirstForcedMove = nextMoveFuncForced(firstObj, "none");
-    let continuationOfSecondForcedMove = nextMoveFuncForced(secondObj, "none");
-    
-
-    if (type === "low") {
-        if (continuationOfFirstForcedMove.forcedMove) {
-            continuationFirstValue = continuationOfFirstForcedMove.lowestValue;
-            
-        } else { 
-            continuationOfFirstNoForced = nextMoveFuncNoForced(firstObj);
-            continuationFirstValue = continuationOfFirstNoForced.lowestValue;
-        }
-        
-    
-        if (continuationOfSecondForcedMove.forcedMove) {
-            continuationSecondValue = continuationOfSecondForcedMove.lowestValue;
-        } else { 
-            continuationOfSecondNoForced = nextMoveFuncNoForced(secondObj);
-    
-            continuationSecondValue = continuationOfSecondNoForced.lowestValue;
-        }
-    
-    
-        if (continuationSecondValue > continuationFirstValue) {
-            returnObj.isChange = true;
-            returnObj.newValue = continuationSecondValue;
-        }
-    } else {
-        if (continuationOfFirstForcedMove.forcedMove) {
-            continuationFirstValue = continuationOfFirstForcedMove.highestValue;
-        } else { 
-            continuationOfFirstNoForced = nextMoveFuncNoForced(firstObj);
-            continuationFirstValue = continuationOfFirstNoForced.highestValue;
-        }
-        
-    
-        if (continuationOfSecondForcedMove.forcedMove) {
-            continuationSecondValue = continuationOfSecondForcedMove.highestValue;
-        } else { 
-            continuationOfSecondNoForced = nextMoveFuncNoForced(secondObj);
-            continuationSecondValue = continuationOfSecondNoForced.highestValue;
-        }
-    
-    
-        if (continuationSecondValue < continuationFirstValue) {
-            returnObj.isChange = true;
-            returnObj.newValue = continuationSecondValue;
-        }
-    }
-
-    return returnObj;
-}
 
 
 let drawSequence = (arrayWithParams) => {
@@ -1101,6 +1112,7 @@ let findForcedMoves = (gameStateProp, field) => {
     let returnObject = {
         forcedMove: false,
         newGameState: [],
+        highestValue: null,
     }
 
     let promotionFields;
@@ -1166,27 +1178,44 @@ let findForcedMoves = (gameStateProp, field) => {
 
                             if (returnObject.forcedMove) {
 
-                                let latestGameState = [];
+                                let doCalculation = true;
+                                let alternativePath = []
                                 
 
-                                latestGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 if (!isPromoted && !isSeventhRow) {
                                     let isAnotherForcedMove = findForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isAnotherForcedMove.forcedMove) {
-                                        for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
-                                            latestGameState.push(isAnotherForcedMove.newGameState[j]);
+                                        doCalculation = false;
+                                        if (isAnotherForcedMove.highestValue > returnObject.highestValue) {
+                                            returnObject.newGameState = alternativePath;
+                                            for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
+                                                returnObject.newGameState.push(isAnotherForcedMove.newGameState[j]);
+                                            }
+                                            returnObject.highestValue = isAnotherForcedMove.highestValue;
+                                        }
+                                       
+                                    }
+                                }
+
+                                if (doCalculation) {
+                                    let nextStep = findSecondForcedMoves(gameStateProp, "none");
+
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStep.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findSecondMove(gameStateProp);
+                                        if (nextStepNoForced.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStepNoForced.lowestValue;
+                                            returnObject.newGameState = alternativePath;
                                         }
                                     }
                                 }
                                 
-                                let compareTwoMoves = compareMoves(findSecondForcedMoves, findSecondMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameState[latestGameState.length - 1], "low");
-
-
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.newGameState = latestGameState;
-                                }
-
                                 
                             } else {
                                 
@@ -1196,16 +1225,32 @@ let findForcedMoves = (gameStateProp, field) => {
                                 if (!isPromoted && !isSeventhRow) {
                                     let isForcedMove = findForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isForcedMove.forcedMove) {
+                                        returnObject.highestValue = isForcedMove.highestValue
                                         for (let j = 0; j < isForcedMove.newGameState.length; j++) {
                                             returnObject.newGameState.push(isForcedMove.newGameState[j])
+                                            
                                         }
+                                    }
+                                    
+                                }
+                                
+                                if (returnObject.highestValue === null) {
+
+                                    let nextStep = findSecondForcedMoves(gameStateProp, "none");
+
+                                    if (nextStep.forcedMove) {
+                                        returnObject.highestValue = nextStep.lowestValue;
+                                    } else {
+                                        let nextStepNoForced = findSecondMove(gameStateProp);
+
+                                        returnObject.highestValue = nextStepNoForced.lowestValue
                                     }
                                 }
                                 
-                            }
-                            
-    
                                 
+                            }
+
+
                             if (opponentType === "pawn") {
                                 arrayWithMovingOptions[i].hasUserPawn = true;
                             } else if (opponentType === "king") {
@@ -1262,24 +1307,42 @@ let findForcedMoves = (gameStateProp, field) => {
                             
 
                             if (returnObject.forcedMove) {
-                                let latestGameStateWhenKing = [];
+                                
+                                let doCalculation = true;
+                                let alternativePath = []
 
 
-                                latestGameStateWhenKing.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 let isAnotherForcedMoveWhenKing = findForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isAnotherForcedMoveWhenKing.forcedMove) {
-                                    for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
-                                        latestGameStateWhenKing.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                    doCalculation = false;
+                                    if (isAnotherForcedMoveWhenKing.highestValue > returnObject.highestValue) {
+                                        returnObject.newGameState = alternativePath;
+                                        for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
+                                            returnObject.newGameState.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                        }
+                                        returnObject.highestValue = isAnotherForcedMoveWhenKing.highestValue;
                                     }
+                                    
                                 }
 
 
-                                let compareTwoMoves = compareMoves(findSecondForcedMoves, findSecondMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameStateWhenKing[latestGameStateWhenKing.length - 1], "low");
+                                if (doCalculation) {
+                                    let nextStep = findSecondForcedMoves(gameStateProp, "none");
 
-
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.newGameState = latestGameStateWhenKing;
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStep.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findSecondMove(gameStateProp);
+                                        if (nextStepNoForced.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStepNoForced.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    }
                                 }
 
                                
@@ -1289,10 +1352,26 @@ let findForcedMoves = (gameStateProp, field) => {
 
                                 let isForcedMoveWhenKing = findForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isForcedMoveWhenKing.forcedMove) {
+                                    returnObject.highestValue = isForcedMoveWhenKing.highestValue;
                                     for (let j = 0; j < isForcedMoveWhenKing.newGameState.length; j++) {
                                         returnObject.newGameState.push(isForcedMoveWhenKing.newGameState[j]);
                                     }
+
                                 }
+
+
+                                if (returnObject.highestValue === null) {
+                                    let nextStep = findSecondForcedMoves(gameStateProp, "none");
+
+                                    if (nextStep.forcedMove) {
+                                        returnObject.highestValue = nextStep.lowestValue;
+                                    } else {
+                                        let nextStepNoForced = findSecondMove(gameStateProp);
+
+                                        returnObject.highestValue = nextStepNoForced.lowestValue
+                                    }
+                                }
+                                
 
                             }
 
@@ -1516,27 +1595,43 @@ let findSecondForcedMoves = (gameStateProp, field) => {
                             drawingQueue.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                             if (returnObject.forcedMove) {
-                                let latestGameState = [];
                                 
+                                let doCalculation = true;
+                                let alternativePath = [];                                                       
 
-                                latestGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 if (!isPromoted && !isSeventhRow) {
                                     let isAnotherForcedMove = findSecondForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isAnotherForcedMove.forcedMove) {
-                                        for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
-                                            latestGameState.push(isAnotherForcedMove.newGameState[j]);
+                                        doCalculation = false;
+                                        if (isAnotherForcedMove.lowestValue < returnObject.lowestValue) {
+                                            returnObject.newGameState = alternativePath;
+                                            for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
+                                                returnObject.newGameState.push(isAnotherForcedMove.newGameState[j]);
+                                            }
+                                            returnObject.lowestValue = isAnotherForcedMove.lowestValue;
                                         }
+                                        
                                     }
                                 }
 
-                                let compareTwoMoves = compareMoves(findThirdForcedMoves, findThirdMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameState[latestGameState.length - 1], "high");
-
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.lowestValue = compareTwoMoves.newValue;
-                                    returnObject.newGameState = latestGameState;
+                                if (doCalculation) {
+                                    let nextStep = findThirdForcedMoves(gameStateProp, "none");
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStep.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findThirdMove(gameStateProp);
+                                        if (nextStepNoForced.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStepNoForced.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    }
                                 }
-
+ 
                                 
                             } else {
 
@@ -1548,6 +1643,7 @@ let findSecondForcedMoves = (gameStateProp, field) => {
                                 if (!isPromoted && !isSeventhRow) {
                                     let isForcedMove = findSecondForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isForcedMove.forcedMove) {
+                                        returnObject.lowestValue = isForcedMove.lowestValue;
                                         for (let j = 0; j < isForcedMove.newGameState.length; j++) {
                                             returnObject.newGameState.push(isForcedMove.newGameState[j])
                                         }
@@ -1555,15 +1651,18 @@ let findSecondForcedMoves = (gameStateProp, field) => {
                                 }
 
 
-                                let nextStep = findThirdForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
+                                if (returnObject.lowestValue === null) {
+                                    let nextStep = findThirdForcedMoves(gameStateProp, "none");
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.lowestValue = nextStep.highestValue;
-                                } else {
-                                    let nextStepNoForced = findThirdMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                    if (nextStep.forcedMove) {
+                                        returnObject.lowestValue = nextStep.highestValue;
+                                    } else {
+                                        let nextStepNoForced = findThirdMove(gameStateProp);
 
-                                    returnObject.lowestValue = nextStepNoForced.highestValue
+                                        returnObject.lowestValue = nextStepNoForced.highestValue
+                                    }
                                 }
+                                
                                 
 
                             }
@@ -1628,42 +1727,62 @@ let findSecondForcedMoves = (gameStateProp, field) => {
                             
 
                             if (returnObject.forcedMove) {
-                                let latestGameStateWhenKing = [];
-                                latestGameStateWhenKing.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = [];
+
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 let isAnotherForcedMoveWhenKing = findSecondForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isAnotherForcedMoveWhenKing.forcedMove) {
-                                    for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
-                                        latestGameStateWhenKing.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                    doCalculation = false;
+                                    if (isAnotherForcedMoveWhenKing.lowestValue < returnObject.lowestValue) {
+                                        returnObject.newGameState = alternativePath;
+                                        for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
+                                            returnObject.newGameState.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                        }
+                                        returnObject.lowestValue = isAnotherForcedMoveWhenKing.lowestValue;
+                                    }
+                                    
+                                }
+
+                                if (doCalculation) {
+                                    let nextStep = findThirdForcedMoves(gameStateProp, "none");
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStep.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findThirdMove(gameStateProp);
+                                        if (nextStepNoForced.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStepNoForced.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
                                     }
                                 }
-
-                                let compareTwoMoves = compareMoves(findThirdForcedMoves, findThirdMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameStateWhenKing[latestGameStateWhenKing.length - 1], "high");
-
-
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.lowestValue = compareTwoMoves.newValue;
-                                    returnObject.newGameState = latestGameStateWhenKing;
-                                }
+                                
                             } else {
                                 returnObject.newGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
                                 returnObject.forcedMove = true;
 
                                 let isForcedMoveWhenKing = findSecondForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isForcedMoveWhenKing.forcedMove) {
+                                    returnObject.lowestValue = isForcedMoveWhenKing.lowestValue;
                                     for (let j = 0; j < isForcedMoveWhenKing.newGameState.length; j++) {
                                         returnObject.newGameState.push(isForcedMoveWhenKing.newGameState[j]);
                                     }
                                 }
 
-                                let nextStep = findThirdForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
+                                if (returnObject.lowestValue === null) {
+                                    let nextStep = findThirdForcedMoves(gameStateProp, "none");
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.lowestValue = nextStep.highestValue;
-                                } else {
-                                    let nextStepNoForced = findThirdMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                    if (nextStep.forcedMove) {
+                                        returnObject.lowestValue = nextStep.highestValue;
+                                    } else {
+                                        let nextStepNoForced = findThirdMove(gameStateProp);
 
-                                    returnObject.lowestValue = nextStepNoForced.highestValue
+                                        returnObject.lowestValue = nextStepNoForced.highestValue
+                                    }
                                 }
                                 
                             }
@@ -1875,25 +1994,44 @@ let findThirdForcedMoves = (gameStateProp, field) => {
     
                             if (returnObject.forcedMove) {
 
-                                let latestGameState = [];
-                                latestGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = []
+
+
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 if (!isPromoted && !isSeventhRow) {
                                     let isAnotherForcedMove = findThirdForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isAnotherForcedMove.forcedMove) {
-                                        for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
-                                            latestGameState.push(isAnotherForcedMove.newGameState[j]);
+                                        doCalculation = false;
+                                        if (isAnotherForcedMove.highestValue > returnObject.highestValue) {
+                                            returnObject.newGameState = alternativePath;
+                                            for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
+                                                returnObject.newGameState.push(isAnotherForcedMove.newGameState[j]);
+                                            }
+                                            returnObject.highestValue = isAnotherForcedMove.highestValue;
                                         }
                                     }
                                 }
                                 
 
-                                let compareTwoMoves = compareMoves(findFourthForcedMoves, findFourthMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameState[latestGameState.length - 1], "low");
+                                if (doCalculation) {
+                                    let nextStep = findFourthForcedMoves(gameStateProp, "none");
 
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.newGameState = latestGameState;
-                                    returnObject.highestValue = compareTwoMoves.newValue;
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStep.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findFourthMove(gameStateProp);
+                                        if (nextStepNoForced.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStepNoForced.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    }
                                 }
+                                
 
                             } else {
                                 
@@ -1903,21 +2041,26 @@ let findThirdForcedMoves = (gameStateProp, field) => {
                                 if (!isPromoted && !isSeventhRow) {
                                     let isForcedMove = findThirdForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isForcedMove.forcedMove) {
+                                        returnObject.highestValue = isForcedMove.highestValue
                                         for (let j = 0; j < isForcedMove.newGameState.length; j++) {
                                             returnObject.newGameState.push(isForcedMove.newGameState[j])
                                         }
                                     }
                                 }
 
-                                let nextStep = findFourthForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
+                                if (returnObject.highestValue === null) {
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.highestValue = nextStep.lowestValue;
-                                } else {
-                                    let nextStepNoForced = findFourthMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                    let nextStep = findFourthForcedMoves(gameStateProp, "none");
 
-                                    returnObject.highestValue = nextStepNoForced.lowestValue
+                                    if (nextStep.forcedMove) {
+                                        returnObject.highestValue = nextStep.lowestValue;
+                                    } else {
+                                        let nextStepNoForced = findFourthMove(gameStateProp);
+
+                                        returnObject.highestValue = nextStepNoForced.lowestValue
+                                    }
                                 }
+                                
                                 
                             }
                             
@@ -1979,21 +2122,39 @@ let findThirdForcedMoves = (gameStateProp, field) => {
                             
 
                             if (returnObject.forcedMove) {
-                                let latestGameStateWhenKing = [];
-                                latestGameStateWhenKing.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = [];
+
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 let isAnotherForcedMoveWhenKing = findThirdForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isAnotherForcedMoveWhenKing.forcedMove) {
-                                    for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
-                                        latestGameStateWhenKing.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                    doCalculation = false;
+                                    if (isAnotherForcedMoveWhenKing.highestValue > returnObject.highestValue) {
+                                        returnObject.newGameState = alternativePath;
+                                        for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
+                                            returnObject.newGameState.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                        }
+                                        returnObject.highestValue = isAnotherForcedMoveWhenKing.highestValue;
                                     }
+                                    
                                 }
 
-                                let compareTwoMoves = compareMoves(findFourthForcedMoves, findFourthMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameStateWhenKing[latestGameStateWhenKing.length - 1], "low");
+                                if (doCalculation) {
+                                    let nextStep = findFourthForcedMoves(gameStateProp, "none");
 
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.newGameState = latestGameStateWhenKing;
-                                    returnObject.highestValue = compareTwoMoves.newValue;
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStep.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findFourthMove(gameStateProp);
+                                        if (nextStepNoForced.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStepNoForced.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    }
                                 }
 
                             } else {
@@ -2002,19 +2163,23 @@ let findThirdForcedMoves = (gameStateProp, field) => {
 
                                 let isForcedMoveWhenKing = findThirdForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isForcedMoveWhenKing.forcedMove) {
+                                    returnObject.highestValue = isForcedMoveWhenKing.highestValue;
                                     for (let j = 0; j < isForcedMoveWhenKing.newGameState.length; j++) {
                                         returnObject.newGameState.push(isForcedMoveWhenKing.newGameState[j]);
                                     }
                                 }
 
-                                let nextStep = findFourthForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
+                                if (returnObject.highestValue === null) {
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.highestValue = nextStep.lowestValue;
-                                } else {
-                                    let nextStepNoForced = findFourthMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                    let nextStep = findFourthForcedMoves(gameStateProp, "none");
 
-                                    returnObject.highestValue = nextStepNoForced.lowestValue
+                                    if (nextStep.forcedMove) {
+                                        returnObject.highestValue = nextStep.lowestValue;
+                                    } else {
+                                        let nextStepNoForced = findFourthMove(gameStateProp);
+
+                                        returnObject.highestValue = nextStepNoForced.lowestValue
+                                    }
                                 }
                             }
                             
@@ -2226,24 +2391,47 @@ let findFourthForcedMoves = (gameStateProp, field) => {
                             drawingQueue.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                             if (returnObject.forcedMove) {
-                                let latestGameState = [];
-                                latestGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
+
+                                let doCalculation = true;
+                                let alternativePath = [];
+
+
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 if (!isPromoted && !isSeventhRow) {
                                     let isAnotherForcedMove = findFourthForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isAnotherForcedMove.forcedMove) {
-                                        for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
-                                            latestGameState.push(isAnotherForcedMove.newGameState[j]);
+                                        doCalculation = false;
+                                        if (isAnotherForcedMove.lowestValue < returnObject.lowestValue) {
+                                            returnObject.newGameState = alternativePath;
+                                            for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
+                                                returnObject.newGameState.push(isAnotherForcedMove.newGameState[j]);
+                                            }
+                                            returnObject.lowestValue = isAnotherForcedMove.lowestValue
+                                        }
+                                        
+                                    }
+                                }
+
+
+                                if (doCalculation) {
+                                    let nextStep = findFifthForcedMoves(gameStateProp, "none");
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStep.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findFifthMove(gameStateProp);
+                                        if (nextStepNoForced.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStepNoForced.highestValue;
+                                            returnObject.newGameState = alternativePath;
                                         }
                                     }
                                 }
 
-                                let compareTwoMoves = compareMoves(findFifthForcedMoves, findFifthMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameState[latestGameState.length - 1], "high");
 
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.lowestValue = compareTwoMoves.newValue;
-                                    returnObject.newGameState = latestGameState;
-                                }
+                                
                             } else {
 
                                 returnObject.newGameState.push(JSON.parse(JSON.stringify(gameStateProp)))
@@ -2254,21 +2442,28 @@ let findFourthForcedMoves = (gameStateProp, field) => {
                                 if (!isPromoted && !isSeventhRow) {
                                     let isForcedMove = findFourthForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isForcedMove.forcedMove) {
+                                        returnObject.lowestValue = isForcedMove.lowestValue;
                                         for (let j = 0; j < isForcedMove.newGameState.length; j++) {
                                             returnObject.newGameState.push(isForcedMove.newGameState[j])
                                         }
                                     }
                                 }
 
-                                let nextStep = findFifthForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.lowestValue = nextStep.highestValue;
-                                } else {
-                                    let nextStepNoForced = findFifthMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
 
-                                    returnObject.lowestValue = nextStepNoForced.highestValue
+                                if (returnObject.lowestValue === null) {
+
+                                    let nextStep = findFifthForcedMoves(gameStateProp, "none");
+
+                                    if (nextStep.forcedMove) {
+                                        returnObject.lowestValue = nextStep.highestValue;
+                                    } else {
+                                        let nextStepNoForced = findFifthMove(gameStateProp);
+
+                                        returnObject.lowestValue = nextStepNoForced.highestValue
+                                    }
                                 }
+                                
 
                             }
 
@@ -2332,42 +2527,63 @@ let findFourthForcedMoves = (gameStateProp, field) => {
                             
 
                             if (returnObject.forcedMove) {
-                                let latestGameStateWhenKing = [];
-                                latestGameStateWhenKing.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = [];
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 let isAnotherForcedMoveWhenKing = findFourthForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isAnotherForcedMoveWhenKing.forcedMove) {
-                                    for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
-                                        latestGameStateWhenKing.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                    doCalculation = false;
+                                    if (isAnotherForcedMoveWhenKing.lowestValue < returnObject.lowestValue) {
+                                        returnObject.newGameState = alternativePath;
+                                        for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
+                                            returnObject.newGameState.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                        }
+                                        returnObject.lowestValue = isAnotherForcedMoveWhenKing.lowestValue;
+                                    }
+                                    
+                                }
+
+                                if (doCalculation) {
+                                    let nextStep = findFifthForcedMoves(gameStateProp, "none");
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStep.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findFifthMove(gameStateProp);
+                                        if (nextStepNoForced.highestValue < returnObject.lowestValue) {
+                                            returnObject.lowestValue = nextStepNoForced.highestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
                                     }
                                 }
 
-                                let compareTwoMoves = compareMoves(findFifthForcedMoves, findFifthMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameStateWhenKing[latestGameStateWhenKing.length - 1], "high");
-
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.lowestValue = compareTwoMoves.newValue;
-                                    returnObject.newGameState = latestGameStateWhenKing;
-                                }
                             } else {
                                 returnObject.newGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
                                 returnObject.forcedMove = true;
 
                                 let isForcedMoveWhenKing = findFourthForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isForcedMoveWhenKing.forcedMove) {
+                                    returnObject.lowestValue = isForcedMoveWhenKing.lowestValue;
                                     for (let j = 0; j < isForcedMoveWhenKing.newGameState.length; j++) {
                                         returnObject.newGameState.push(isForcedMoveWhenKing.newGameState[j]);
                                     }
                                 }
 
 
-                                let nextStep = findFifthForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
+                                if (returnObject.lowestValue === null) {
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.lowestValue = nextStep.highestValue;
-                                } else {
-                                    let nextStepNoForced = findFifthMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                    let nextStep = findFifthForcedMoves(gameStateProp, "none");
 
-                                    returnObject.lowestValue = nextStepNoForced.highestValue
+                                    if (nextStep.forcedMove) {
+                                        returnObject.lowestValue = nextStep.highestValue;
+                                    } else {
+                                        let nextStepNoForced = findFifthMove(gameStateProp);
+
+                                        returnObject.lowestValue = nextStepNoForced.highestValue
+                                    }
                                 }
                                 
                             }
@@ -2579,24 +2795,45 @@ let findFifthForcedMoves = (gameStateProp, field) => {
     
                             if (returnObject.forcedMove) {
 
-                                let latestGameState = [];
-                                latestGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = [];
+
+
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 if (!isPromoted && !isSeventhRow) {
                                     let isAnotherForcedMove = findFifthForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isAnotherForcedMove.forcedMove) {
-                                        for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
-                                            latestGameState.push(isAnotherForcedMove.newGameState[j]);
+                                        doCalculation = false;
+                                        if (isAnotherForcedMove.highestValue > returnObject.highestValue) {
+                                            returnObject.newGameState = alternativePath;
+                                            for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
+                                                returnObject.newGameState.push(isAnotherForcedMove.newGameState[j]);
+                                            }
+                                            returnObject.highestValue = isAnotherForcedMove.highestValue;
                                         }
+                                        
                                     }
                                 }
                                 
-                                let compareTwoMoves = compareMoves(findSixthForcedMoves, findSixthMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameState[latestGameState.length - 1], "low");
+                                if (doCalculation) {
+                                    let nextStep = findSixthForcedMoves(gameStateProp, "none");
 
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.newGameState = latestGameState;
-                                    returnObject.highestValue = compareTwoMoves.newValue;
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStep.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findSixthMove(gameStateProp);
+                                        if (nextStepNoForced.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStepNoForced.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    }
                                 }
+
+
                             } else {
                                 
                                 returnObject.newGameState.push(JSON.parse(JSON.stringify(gameStateProp)))
@@ -2605,21 +2842,28 @@ let findFifthForcedMoves = (gameStateProp, field) => {
                                 if (!isPromoted && !isSeventhRow) {
                                     let isForcedMove = findFifthForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isForcedMove.forcedMove) {
+                                        returnObject.highestValue = isForcedMove.highestValue
                                         for (let j = 0; j < isForcedMove.newGameState.length; j++) {
                                             returnObject.newGameState.push(isForcedMove.newGameState[j])
                                         }
                                     }
                                 }
 
-                                let nextStep = findSixthForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.highestValue = nextStep.lowestValue;
-                                } else {
-                                    let nextStepNoForced = findSixthMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                if (returnObject. highestValue === null) {
 
-                                    returnObject.highestValue = nextStepNoForced.lowestValue
+                                    let nextStep = findSixthForcedMoves(gameStateProp, "none");
+
+                                    if (nextStep.forcedMove) {
+                                        returnObject.highestValue = nextStep.lowestValue;
+                                    } else {
+                                        let nextStepNoForced = findSixthMove(gameStateProp);
+
+                                        returnObject.highestValue = nextStepNoForced.lowestValue
+                                    }
                                 }
+
+                                
                                 
                             }
                             
@@ -2681,21 +2925,38 @@ let findFifthForcedMoves = (gameStateProp, field) => {
                             
 
                             if (returnObject.forcedMove) {
-                                let latestGameStateWhenKing = [];
-                                latestGameStateWhenKing.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = [];
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 let isAnotherForcedMoveWhenKing = findFifthForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isAnotherForcedMoveWhenKing.forcedMove) {
-                                    for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
-                                        latestGameStateWhenKing.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                    doCalculation = false;
+                                    if (isAnotherForcedMoveWhenKing.highestValue > returnObject.highestValue) {
+                                        returnObject.newGameState = alternativePath;
+                                        for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
+                                            returnObject.newGameState.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                        }
+                                        returnObject.highestValue = isAnotherForcedMoveWhenKing.highestValue;
                                     }
+                                    
                                 }
 
-                                let compareTwoMoves = compareMoves(findSixthForcedMoves, findSixthMove, returnObject.newGameState[returnObject.newGameState.length - 1], latestGameStateWhenKing[latestGameStateWhenKing.length - 1], "low");
+                                if (doCalculation) {
+                                    let nextStep = findSixthForcedMoves(gameStateProp, "none");
 
-                                if (compareTwoMoves.isChange) {
-                                    returnObject.newGameState = latestGameStateWhenKing;
-                                    returnObject.highestValue = compareTwoMoves.newValue;
+                                    if (nextStep.forcedMove) {
+                                        if (nextStep.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStep.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    } else {
+                                        let nextStepNoForced = findSixthMove(gameStateProp);
+                                        if (nextStepNoForced.lowestValue > returnObject.highestValue) {
+                                            returnObject.highestValue = nextStepNoForced.lowestValue;
+                                            returnObject.newGameState = alternativePath;
+                                        }
+                                    }
                                 }
                             } else {
                                 returnObject.newGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
@@ -2703,19 +2964,23 @@ let findFifthForcedMoves = (gameStateProp, field) => {
 
                                 let isForcedMoveWhenKing = findFifthForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isForcedMoveWhenKing.forcedMove) {
+                                    returnObject.highestValue = isForcedMoveWhenKing.highestValue;
                                     for (let j = 0; j < isForcedMoveWhenKing.newGameState.length; j++) {
                                         returnObject.newGameState.push(isForcedMoveWhenKing.newGameState[j]);
                                     }
                                 }
 
-                                let nextStep = findSixthForcedMoves(returnObject.newGameState[returnObject.newGameState.length - 1], "none");
+                                if (returnObject. highestValue === null) {
 
-                                if (nextStep.forcedMove) {
-                                    returnObject.highestValue = nextStep.lowestValue;
-                                } else {
-                                    let nextStepNoForced = findSixthMove(returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                    let nextStep = findSixthForcedMoves(gameStateProp, "none");
 
-                                    returnObject.highestValue = nextStepNoForced.lowestValue
+                                    if (nextStep.forcedMove) {
+                                        returnObject.highestValue = nextStep.lowestValue;
+                                    } else {
+                                        let nextStepNoForced = findSixthMove(gameStateProp);
+
+                                        returnObject.highestValue = nextStepNoForced.lowestValue
+                                    }
                                 }
 
                             }
@@ -2929,33 +3194,46 @@ let findSixthForcedMoves = (gameStateProp, field) => {
                                 arrayWithJumpingOptions[i].hasUserPawn = true;
                             }
 
-                            drawingQueue.push(JSON.parse(JSON.stringify(gameStateProp)));
+                            //drawingQueue.push(JSON.parse(JSON.stringify(gameStateProp)));
 
 
 
                             if (returnObject.forcedMove) {
-                                let latestGameState = [];
-                                latestGameState.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                
+                                let doCalculation = true;
+                                let alternativePath = [];
+
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 if (!isPromoted && !isSeventhRow) {
                                     let isAnotherForcedMove = findSixthForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isAnotherForcedMove.forcedMove) {
-                                        for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
-                                            latestGameState.push(isAnotherForcedMove.newGameState[j]);
+                                        doCalculation = false;
+                                        if (isAnotherForcedMove.lowestValue < returnObject.lowestValue) {
+                                            returnObject.newGameState = alternativePath;
+                                            for (let j = 0; j < isAnotherForcedMove.newGameState.length; j++) {
+                                                returnObject.newGameState.push(isAnotherForcedMove.newGameState[j]);
+                                            }
+                                            returnObject.lowestValue = isAnotherForcedMove.lowestValue;
                                         }
+                                        
                                     }
                                 }
 
 
-                                calculateAiResult(aiPlayer, latestGameState[latestGameState.length - 1]);
-                                calculateUserResult(userPlayer, latestGameState[latestGameState.length - 1]);
+                                if (doCalculation) {
 
-                                secondResult = aiResult - userResult;
+                                    calculateAiResult(aiPlayer, gameStateProp);
+                                    calculateUserResult(userPlayer, gameStateProp);
 
-                                if (secondResult < returnObject.lowestValue) {
-                                    returnObject.lowestValue = secondResult;
-                                    returnObject.newGameState = latestGameState;
+                                    secondResult = aiResult - userResult;
+
+                                    if (secondResult < returnObject.lowestValue) {
+                                        returnObject.lowestValue = secondResult;
+                                        returnObject.newGameState = alternativePath;
+                                    }
                                 }
+                                
                                
                                 
                                 
@@ -2969,16 +3247,20 @@ let findSixthForcedMoves = (gameStateProp, field) => {
                                 if (!isPromoted && !isSeventhRow) {
                                     let isForcedMove = findSixthForcedMoves(gameStateProp, arrayWithJumpingOptions[i].fieldName);
                                     if (isForcedMove.forcedMove) {
+                                        returnObject.lowestValue = isForcedMove.lowestValue;
                                         for (let j = 0; j < isForcedMove.newGameState.length; j++) {
                                             returnObject.newGameState.push(isForcedMove.newGameState[j])
                                         }
                                     }
                                 }
 
-                                calculateAiResult(aiPlayer, returnObject.newGameState[returnObject.newGameState.length - 1]);
-                                calculateUserResult(userPlayer, returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                if (returnObject.lowestValue === null) {
+                                    calculateAiResult(aiPlayer, gameStateProp);
+                                    calculateUserResult(userPlayer, gameStateProp);
 
-                                returnObject.lowestValue = aiResult - userResult;
+                                    returnObject.lowestValue = aiResult - userResult;
+                                }
+                                
                                 
 
                             }
@@ -3043,24 +3325,34 @@ let findSixthForcedMoves = (gameStateProp, field) => {
                             
 
                             if (returnObject.forcedMove) {
-                                let latestGameStateWhenKing = [];
-                                latestGameStateWhenKing.push(JSON.parse(JSON.stringify(gameStateProp)));
+                                let doCalculation = true;
+                                let alternativePath = [];
+                                alternativePath.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                                 let isAnotherForcedMoveWhenKing = findSixthForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isAnotherForcedMoveWhenKing.forcedMove) {
-                                    for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
-                                        latestGameStateWhenKing.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                    doCalculation = false;
+                                    if (isAnotherForcedMoveWhenKing.lowestValue < returnObject.lowestValue) {
+                                        returnObject.newGameState = alternativePath;
+                                        for (let j = 0; j < isAnotherForcedMoveWhenKing.newGameState.length; j++) {
+                                            returnObject.newGameState.push(isAnotherForcedMoveWhenKing.newGameState[j]);
+                                        }
+                                        returnObject.lowestValue = isAnotherForcedMoveWhenKing.lowestValue
                                     }
+                                    
                                 }
 
-                                calculateAiResult(aiPlayer, latestGameStateWhenKing[latestGameStateWhenKing.length - 1]);
-                                calculateUserResult(userPlayer, latestGameStateWhenKing[latestGameStateWhenKing.length - 1]);
+                                if (doCalculation) {
 
-                                secondResult = aiResult - userResult;
+                                    calculateAiResult(aiPlayer, gameStateProp);
+                                    calculateUserResult(userPlayer, gameStateProp);
 
-                                if (secondResult < returnObject.lowestValue) {
-                                    returnObject.lowestValue = secondResult;
-                                    returnObject.newGameState = latestGameStateWhenKing;
+                                    secondResult = aiResult - userResult;
+
+                                    if (secondResult < returnObject.lowestValue) {
+                                        returnObject.lowestValue = secondResult;
+                                        returnObject.newGameState = alternativePath;
+                                    }
                                 }
                                
                                  
@@ -3070,15 +3362,18 @@ let findSixthForcedMoves = (gameStateProp, field) => {
 
                                 let isForcedMoveWhenKing = findSixthForcedMoves(gameStateProp, arrayWithJumpingOptionsKing[i].fieldName);
                                 if (isForcedMoveWhenKing.forcedMove) {
+                                    returnObject.lowestValue = isForcedMoveWhenKing.lowestValue
                                     for (let j = 0; j < isForcedMoveWhenKing.newGameState.length; j++) {
                                         returnObject.newGameState.push(isForcedMoveWhenKing.newGameState[j]);
                                     }
                                 }
 
-                                calculateAiResult(aiPlayer, returnObject.newGameState[returnObject.newGameState.length - 1]);
-                                calculateUserResult(userPlayer, returnObject.newGameState[returnObject.newGameState.length - 1]);
+                                if (returnObject.lowestValue === null) {
+                                    calculateAiResult(aiPlayer, gameStateProp);
+                                    calculateUserResult(userPlayer, gameStateProp);
 
-                                returnObject.lowestValue = aiResult - userResult;
+                                    returnObject.lowestValue = aiResult - userResult;
+                                }
                             }
 
 
@@ -3151,7 +3446,7 @@ let findSixthMove = (gameStateProp) => {
 
                     console.log(" user moved pawn from ", key, "to square: ", arrayWithMovingOptions[i].fieldName);
 
-                    drawingQueue.push(JSON.parse(JSON.stringify(gameStateProp)));
+                    //drawingQueue.push(JSON.parse(JSON.stringify(gameStateProp)));
 
                     calculateAiResult(aiPlayer, gameStateProp);
                     calculateUserResult(userPlayer, gameStateProp);
@@ -3342,8 +3637,8 @@ drawSequence(drawingQueue);
 
 
 console.log(drawingQueue.length);
-console.log(checkSth);
-console.log("check nr 2", checkSth1);
+
+
 
 console.log(aiResult);
 console.log(userResult);
