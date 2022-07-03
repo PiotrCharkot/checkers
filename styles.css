@@ -15,11 +15,19 @@
     border: 5px solid brown; 
     grid-template-columns: 75px 75px 75px 75px 75px 75px 75px 75px ;
     grid-template-rows: 75px 75px 75px 75px 75px 75px 75px 75px;  
+    
 }
 
 .squareDark {
     display: flex; 
     background-color: brown;
+    justify-content: center;
+    align-items: center;
+}
+
+.squareDark:hover {
+    display: flex; 
+    background-color: rgb(193, 103, 39);
     justify-content: center;
     align-items: center;
 }
@@ -37,4 +45,16 @@
 #king {
     height: 50px;
     width: 50px;
+}
+
+#pawn180 {
+    height: 40px;
+    width: 25px;
+    transform: rotate(180deg);
+}
+
+#king180 {
+    height: 50px;
+    width: 50px;
+    transform: rotate(180deg);
 }
