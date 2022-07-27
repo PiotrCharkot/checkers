@@ -1442,7 +1442,7 @@ let calculateAiResult = (player, gameStateCalc) => {
     for (const key in gameStateCalc) {
         if (gameStateCalc[key].hasAiPawn && player === "white") {
             if (gameStateCalc[key].rowNumber === 1) {
-                aiResult += 2 
+                aiResult += 8 
             } else if (gameStateCalc[key].rowNumber === 2) {
                 aiResult += 4 
             } else if (gameStateCalc[key].rowNumber === 3) {
@@ -1459,7 +1459,7 @@ let calculateAiResult = (player, gameStateCalc) => {
             pawnCount += pawnBonus;
         } else if (gameStateCalc[key].hasAiPawn && player === "black") {
             if (gameStateCalc[key].rowNumber === 8) {
-                aiResult += 2 
+                aiResult += 8 
             } else if (gameStateCalc[key].rowNumber === 7) {
                 aiResult += 4 
             } else if (gameStateCalc[key].rowNumber === 6) {
@@ -1530,7 +1530,7 @@ let calculateUserResult = (player, gameStateCalc) => {
     for (const key in gameStateCalc) {
         if (gameStateCalc[key].hasUserPawn && player === "white") {
             if (gameStateCalc[key].rowNumber === 1) {
-                userResult += 2 
+                userResult += 8 
             } else if (gameStateCalc[key].rowNumber === 2) {
                 userResult += 4 
             } else if (gameStateCalc[key].rowNumber === 3) {
@@ -1547,7 +1547,7 @@ let calculateUserResult = (player, gameStateCalc) => {
             pawnCount += pawnBonus;
         } else if (gameStateCalc[key].hasUserPawn && player === "black") {
             if (gameStateCalc[key].rowNumber === 8) {
-                userResult += 2 
+                userResult += 8 
             } else if (gameStateCalc[key].rowNumber === 7) {
                 userResult += 4 
             } else if (gameStateCalc[key].rowNumber === 6) {
