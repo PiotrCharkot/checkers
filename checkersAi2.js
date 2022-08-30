@@ -3,7 +3,6 @@ let aiPlayer = "black";
 let userPlayerTurn = true;
 let userResult = 0;
 let aiResult = 0;
-let coinflip;
 let drawingQueue = []; // for displaying multiple captures made by AI
 let ind = 0;
 let tempValStepOne; // values used in optimalization process
@@ -21,37 +20,14 @@ let isForcedResponse = false;
 let continueCaptureFrom = "none";
 let pawnBonus = 3;
 let stepNumber;
-let stepLimit = 6; // number of moves ahead for analysis, takes only even numbers, (6 for resonable time)
-let saveStepLimit = stepLimit;
+let stepLimit = 6; // number of moves ahead for analysis, takes only even numbers, (6 for resonable time)  
 let opponentKingX = null;
 let opponentKingY = null;
 let opponentKingsCount = 0;
-let aiKingNum = 0;
-let userKingNum = 0;
-let totalPawnNumber = 0;
 let isFieldChoosen;
 let validMove;
 let validMoveForced;
 let myPreviousTarget;
-let gameOn = false;
-let playerChoseSide = false;
-let noMorePawns = false;
-let drawLimit = 14;
-let drawCountDown = drawLimit;
-let showOfferDraw = false;
-
-let chooseEasyLink = document.getElementById("chooseEasy");
-let chooseHardLink = document.getElementById("chooseHard");
-let chooseColorWhiteLink = document.getElementById("colorWhite");
-let chooseColorBlackLink = document.getElementById("colorBlack");
-let chooseColorRandomLink = document.getElementById("colorRandom");
-let chessBoardDiv = document.querySelector(".chessBoard");
-let chessBoardDivSmall = document.querySelector(".chessBoardSmall");
-let resultTextDiv = document.getElementById("resultText");
-let resultTestContent = document.getElementById("resultTextContent");
-let drawTextContent = document.getElementById("acceptDrawText");
-let buttonYes = document.getElementById("buttonYes");
-let buttonNo = document.getElementById("buttonNo");
 
 
 //points for certain position:
@@ -840,361 +816,11 @@ let gameState = new GameState(
     }
 )
 
-let gameStateSmall = new GameState(
-    [],
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 1,
-        column: 1,
-        fieldName: "A1Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 1,
-        column: 3,
-        fieldName: "C1Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 1,
-        column: 5,
-        fieldName: "E1Small"
-    },
-    { 
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 1,
-        column: 7,
-        fieldName: "G1Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 2,
-        column: 2,
-        fieldName: "B2Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 2,
-        column: 4,
-        fieldName: "D2Small"
-    },
-    {  
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 2,
-        column: 6,
-        fieldName: "F2Small"
-    },
-    {       
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 2,
-        column: 8,
-        fieldName: "H2Small"
-    },
-    {       
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 3,
-        column: 1,
-        fieldName: "A3Small"
-    },
-    {       
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 3,
-        column: 3,
-        fieldName: "C3Small"
-    },
-    {       
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 3,
-        column: 5,
-        fieldName: "E3Small"
-    },
-    {       
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 3,
-        column: 7,
-        fieldName: "G3Small"
-    },
-    {       
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 4,
-        column: 2,
-        fieldName: "B4Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false  ,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 4,
-        column: 4,
-        fieldName: "D4Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 4,
-        column: 6,
-        fieldName: "F4Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 4,
-        column: 8,
-        fieldName: "H4Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 5,
-        column: 1,
-        fieldName: "A5Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 5,
-        column: 3,
-        fieldName: "C5Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 5,
-        column: 5,
-        fieldName: "E5Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 5,
-        column: 7,
-        fieldName: "G5Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 6,
-        column: 2,
-        fieldName: "B6Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 6,
-        column: 4,
-        fieldName: "D6Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 6,
-        column: 6,
-        fieldName: "F6Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 6,
-        column: 8,
-        fieldName: "H6Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 7,
-        column: 1,
-        fieldName: "A7Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 7,
-        column: 3,
-        fieldName: "C7Small"
-    },
-    { 
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 7,
-        column: 5,
-        fieldName: "E7Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 7,
-        column: 7,
-        fieldName: "G7Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 8,
-        column: 2,
-        fieldName: "B8Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 8,
-        column: 4,
-        fieldName: "D8Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 8,
-        column: 6,
-        fieldName: "F8Small"
-    },
-    {
-        isFree: true,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 8,
-        column: 8,
-        fieldName: "H8Small"
-    },
-    {
-        isFree: false,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 0,
-        column: 0
-    },
-    {
-        isFree: false,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 0,
-        column: 0
-    },
-    {
-        isFree: false,
-        hasAiPawn: false,
-        hasUserPawn: false,
-        hasAiKing: false,
-        hasUserKing: false,
-        rowNumber: 0,
-        column: 0
-    }
-)
 
 
 // function called when square with user pawn that has to capture AI pawn (when usersTurn === true && forcedMove === true)
 let chooseFieldForcedMove = (e) => {
-    console.log("forced");
+
     let myTarget;
     let arrayWithMovingOptions;
     let arrayWithJumpingOptions;
@@ -1204,19 +830,15 @@ let chooseFieldForcedMove = (e) => {
     validMoveForced = false;
 
 
-    if (offerDrawFunction()) {
-        buttonNoAction();
-    }
-
     if (continueCaptureFrom != "none") {
         myTarget = continueCaptureFrom;
     } else {
         myTarget = e.target.id;
-        if (e.target.id === "pawn180" || e.target.id === "pawn" || e.target.id === "pawn180Small" || e.target.id === "pawnSmall") {
+        if (e.target.id === "pawn180" || e.target.id === "pawn") {
             myTarget = e.target.parentNode.id
         }
     
-        if (e.target.id === "king180" || e.target.id === "king" ||e.target.id === "king180Small" || e.target.id === "kingSmall") {
+        if (e.target.id === "king180" || e.target.id === "king") {
             myTarget = e.target.parentNode.id
         }
     }
@@ -1338,121 +960,6 @@ let chooseFieldForcedMove = (e) => {
                 
             }
         }
-
-        for (const key in gameStateSmall) {
-            if (myPreviousTarget === gameStateSmall[key].fieldName) {
-
-                let hasUserPawn = gameState[key].hasUserPawn;
-                let hasUserKing = gameState[key].hasUserKing;
-                
-
-                if (hasUserKing) {
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptionsKing;
-                        arrayWithJumpingOptions = gameState.playerWhiteMoveOptions[key].jumpOptionsKing;
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptionsKing;
-                        arrayWithJumpingOptions = gameState.playerBlackMoveOptions[key].jumpOptionsKing;
-                    }
-                } else {
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptions;
-                        arrayWithJumpingOptions = gameState.playerWhiteMoveOptions[key].jumpOptions;
-                        promotionFields = ["B8", "D8", "F8", "H8"];
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptions;
-                        arrayWithJumpingOptions = gameState.playerBlackMoveOptions[key].jumpOptions;
-                        promotionFields = ["A1", "C1", "E1", "G1"];
-                    }
-                }
-                
-                
-                for (let i = 0; i < arrayWithJumpingOptions.length; i++) {
-                    
-                    if (arrayWithJumpingOptions[i].fieldName) {
-                        document.getElementById(arrayWithJumpingOptions[i].fieldName + "Small").style.opacity = "100%"
-
-                    }
-                }
-
-                
-                if (hasUserPawn || hasUserKing) {
-                    for (let i = 0; i < arrayWithJumpingOptions.length; i++) {
-                        
-                        if (myTarget === arrayWithJumpingOptions[i].fieldName + "Small") {
-                           
-                            let isFreeJumpAhead = arrayWithJumpingOptions[i].isFree;
-                            let isAiFigureAhead;
-                            if (arrayWithMovingOptions[i].hasAiPawn || arrayWithMovingOptions[i].hasAiKing) {
-                                isAiFigureAhead = true;
-                            }
-                            if (isAiFigureAhead && isFreeJumpAhead) {
-                                
-                                console.log("move user pawn from ", myPreviousTarget, " to field ", myTarget);
-
-                                if (!hasUserKing) {
-                                    isPromoted = promotionFields.includes(arrayWithJumpingOptions[i].fieldName);
-                                }
-
-                                for (const key in gameState) {
-                                    if (gameState[key].fieldName) {
-                                        document.getElementById(gameState[key].fieldName).removeEventListener("click", chooseFieldForcedMove);
-                                    }
-                                }
-
-                                if (hasUserPawn) {
-                                    gameState[key].hasUserPawn = false;
-                                    gameState[key].isFree = true;
-                                    arrayWithJumpingOptions[i].isFree = false;
-                                    if (isPromoted) {
-                                        arrayWithJumpingOptions[i].hasUserKing = true;
-                                    } else {
-                                        arrayWithJumpingOptions[i].hasUserPawn = true;
-                                    }
-                                    arrayWithMovingOptions[i].isFree = true;
-                                    arrayWithMovingOptions[i].hasAiPawn = false;
-                                    arrayWithMovingOptions[i].hasAiKing = false;
-                                }
-                                
-                                if (hasUserKing) {
-                                    gameState[key].hasUserKing = false;
-                                    gameState[key].isFree = true;
-                                    arrayWithJumpingOptions[i].isFree = false;
-                                    arrayWithJumpingOptions[i].hasUserKing = true;
-                                    arrayWithMovingOptions[i].isFree = true;
-                                    arrayWithMovingOptions[i].hasAiPawn = false;
-                                    arrayWithMovingOptions[i].hasAiKing = false;
-                                }
-
-                                validMoveForced = true;
-
-                                
-
-                                console.log(gameState);
-                                drawBoard(gameState);
-
-                                userPlayerTurn = false;
-                                continueCaptureFrom = "none";
-
-                                isAnotherForcedRsponse = checkForForcedResponse(gameState, arrayWithJumpingOptions[i].fieldName)
-
-                                if (isAnotherForcedRsponse && !isPromoted) {
-                                    userPlayerTurn = true;
-                                    continueCaptureFrom = arrayWithJumpingOptions[i].fieldName + "Small";
-                                }
-                                setTimeout(() => {
-                                    chooseBestMove();
-                                }, 10)
-                                
-                            }
-                            
-                        }
-                        
-                    }
-                }
-                
-            }
-        }
         
     }
 
@@ -1513,58 +1020,6 @@ let chooseFieldForcedMove = (e) => {
             }
         }
 
-        for (const key in gameStateSmall) {
-            if (myTarget === gameStateSmall[key].fieldName) {
-    
-                let hasUserPawn = gameState[key].hasUserPawn;
-                let hasUserKing = gameState[key].hasUserKing;
-                
-                if (hasUserPawn) {
-                    isFieldChoosen = true;
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptions;
-                        arrayWithJumpingOptions = gameState.playerWhiteMoveOptions[key].jumpOptions;
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptions;
-                        arrayWithJumpingOptions = gameState.playerBlackMoveOptions[key].jumpOptions;
-                    }
-        
-        
-                    for (let i = 0; i < arrayWithJumpingOptions.length; i++) {
-                        if (arrayWithJumpingOptions[i].isFree) {
-                            if (arrayWithMovingOptions[i].hasAiPawn || arrayWithMovingOptions[i].hasAiKing) {
-                                document.getElementById(arrayWithJumpingOptions[i].fieldName + "Small").style.opacity = "80%"
-                                document.getElementById(arrayWithJumpingOptions[i].fieldName + "Small").addEventListener("click", chooseFieldForcedMove);
-                            }
-                        }
-                    }
-                }
-    
-                if (hasUserKing) {
-                    isFieldChoosen = true;
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptionsKing;
-                        arrayWithJumpingOptions = gameState.playerWhiteMoveOptions[key].jumpOptionsKing;
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptionsKing;
-                        arrayWithJumpingOptions = gameState.playerBlackMoveOptions[key].jumpOptionsKing;
-                    }
-        
-        
-                    for (let i = 0; i < arrayWithJumpingOptions.length; i++) {
-                        if (arrayWithJumpingOptions[i].isFree) {
-                            if (arrayWithMovingOptions[i].hasAiPawn || arrayWithMovingOptions[i].hasAiKing) {
-                                document.getElementById(arrayWithJumpingOptions[i].fieldName + "Small").style.opacity = "80%"
-                                document.getElementById(arrayWithJumpingOptions[i].fieldName + "Small").addEventListener("click", chooseFieldForcedMove);
-                            }
-                        }
-                    }
-                }
-    
-    
-            }
-        }
-
         continueCaptureFrom = "none";
     }
 }
@@ -1577,18 +1032,12 @@ let chooseField = (e) => {
     let arrayWithMovingOptions;
     let promotionFields;
     validMove = false;
-    
 
-
-    if (offerDrawFunction()) {
-        buttonNoAction();
-    }
-
-    if (e.target.id === "pawn180" || e.target.id === "pawn" || e.target.id === "pawn180Small" || e.target.id === "pawnSmall") {
+    if (e.target.id === "pawn180" || e.target.id === "pawn") {
         myTarget = e.target.parentNode.id
     }
 
-    if (e.target.id === "king180" || e.target.id === "king" || e.target.id === "king180Small" || e.target.id === "kingSmall") {
+    if (e.target.id === "king180" || e.target.id === "king") {
         myTarget = e.target.parentNode.id
     }
     
@@ -1687,105 +1136,8 @@ let chooseField = (e) => {
                 
             }
         }
-
-        for (const key in gameStateSmall) {
-            if (myPreviousTarget === gameStateSmall[key].fieldName) {
-    
-                let hasUserPawn = gameState[key].hasUserPawn;
-                let hasUserKing = gameState[key].hasUserKing;
-                console.log(gameStateSmall);
-    
-                if (hasUserKing) {
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptionsKing;
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptionsKing;
-                    }
-                } else {
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptions;
-                        promotionFields = ["B8", "D8", "F8", "H8"];
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptions;
-                        promotionFields = ["A1", "C1", "E1", "G1"];
-                    }
-                }
-                
-                
-                for (let i = 0; i < arrayWithMovingOptions.length; i++) {
-                    
-                    if (arrayWithMovingOptions[i].fieldName) {
-                        document.getElementById(arrayWithMovingOptions[i].fieldName + "Small").style.opacity = "100%"
-    
-                    }
-                }
-    
-                
-                if (hasUserPawn || hasUserKing) {
-                    
-                    for (let i = 0; i < arrayWithMovingOptions.length; i++) {
-                        if (myTarget === arrayWithMovingOptions[i].fieldName + "Small") {
-                           
-                            let isFreeAhead = arrayWithMovingOptions[i].isFree;
-                            if (isFreeAhead) {
-                                //change gamestate, change to AI turn
-                                //redraw borad with new state
-                                //return from function
-                                console.log("this is valid move!!!!");
-                                console.log("move user pawn from ", myPreviousTarget, " to field ", myTarget);
-    
-                                if (!hasUserKing) {
-                                    isPromoted = promotionFields.includes(arrayWithMovingOptions[i].fieldName);
-                                }
-    
-                                for (const key in gameState) {
-                                    if (gameState[key].fieldName) {
-                                        document.getElementById(gameStateSmall[key].fieldName).removeEventListener("click", chooseField);
-                                    }
-                                }
-    
-                                if (hasUserPawn) {
-                                    gameState[key].hasUserPawn = false;
-                                    gameState[key].isFree = true;
-                                    arrayWithMovingOptions[i].isFree = false;
-                                    if (isPromoted) {
-                                        arrayWithMovingOptions[i].hasUserKing = true;
-                                    } else {
-                                        arrayWithMovingOptions[i].hasUserPawn = true;
-                                    }
-                                }
-                                
-                                if (hasUserKing) {
-                                    gameState[key].hasUserKing = false;
-                                    gameState[key].isFree = true;
-                                    arrayWithMovingOptions[i].hasUserKing = true;
-                                    arrayWithMovingOptions[i].isFree = false;
-                                }
-    
-                                validMove = true;
-    
-                                
-    
-                                console.log(gameState);
-                                drawBoard(gameState);
-                                userPlayerTurn = false;
-                                setTimeout(() => {
-                                    chooseBestMove();
-                                }, 10)
-                                
-                            }
-                            
-                        }
-                        
-                    }
-                }
-                
-            }
-        }
         
     }
-
-    
 
     myPreviousTarget = myTarget;
     console.log("field clicked now: ", myTarget);
@@ -1833,57 +1185,13 @@ let chooseField = (e) => {
     
             }
         }
-
-        for (const key in gameStateSmall) {
-            if (myTarget === gameStateSmall[key].fieldName) {
-    
-                let hasUserPawn = gameState[key].hasUserPawn;
-                let hasUserKing = gameState[key].hasUserKing;
-                
-                if (hasUserPawn) {
-                    isFieldChoosen = true;
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptions;
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptions;
-                    }
-        
-        
-                    for (let i = 0; i < arrayWithMovingOptions.length; i++) {
-                        if (arrayWithMovingOptions[i].isFree) {
-                            document.getElementById(arrayWithMovingOptions[i].fieldName + "Small").style.opacity = "80%"
-                        }
-                    }
-                }
-    
-                if (hasUserKing) {
-                    isFieldChoosen = true;
-                    if (userPlayer === "white") {
-                        arrayWithMovingOptions = gameState.playerWhiteMoveOptions[key].moveOptionsKing;
-                    } else if (userPlayer === "black") {
-                        arrayWithMovingOptions = gameState.playerBlackMoveOptions[key].moveOptionsKing;
-                    }
-        
-        
-                    for (let i = 0; i < arrayWithMovingOptions.length; i++) {
-                        if (arrayWithMovingOptions[i].isFree) {
-                            document.getElementById(arrayWithMovingOptions[i].fieldName + "Small").style.opacity = "80%"
-                        }
-                    }
-                }
-    
-    
-            }
-        }
     }
     
 }
 
 
 let chooseSide = () => {
-    if (!playerChoseSide) {
-        coinflip = Math.floor(Math.random() * 2);
-    }
+    let coinflip = Math.floor(Math.random() * 2);
     if (coinflip === 0) {
         aiPlayer = "white";
         userPlayer = "black";
@@ -1994,26 +1302,13 @@ let chooseSide = () => {
 
 let startGame = () => {
    
-    gameOn = true;
-    noMorePawns = false;
-    stepLimit = saveStepLimit;
-    drawCountDown = drawLimit;
-    resultTextDiv.style.display = "none";
-    disableChoice();
     chooseSide();
     console.log("AI players has color:", aiPlayer);
     console.log("user players has color:", userPlayer);
-
-    if (aiPlayer === "black") {
-        chessBoardDiv.style.transform = "rotate(360deg)";
-        chessBoardDivSmall.style.transform = "rotate(360deg)";
-    }
     
     drawBoard(gameState)
     
-    setTimeout(() => {
-        chooseBestMove(gameState, aiPlayer, userPlayer);
-    }, 400)
+    chooseBestMove(gameState, aiPlayer, userPlayer);
     
 }
 
@@ -2078,26 +1373,6 @@ let calculateAiResult = (player, gameStateCalc) => {
                 distanceToOpponentsKing = Math.sqrt(distanceX + distanceY)/3;
 
                 aiResult -= distanceToOpponentsKing;
-
-                if (aiKingNum === 2 && userKingNum === 1 && gameStateCalc[key].hasAiKing) {
-                    if (
-                        gameStateCalc[key].fieldName === "E3" ||
-                        gameStateCalc[key].fieldName === "F4" 
-                    ) {
-                        if (gameStateCalc.G1.hasUserKing || gameStateCalc.H2.hasUserKing) {
-                            aiResult += 2;
-                        }
-                    }
-
-                    if (
-                        gameStateCalc[key].fieldName === "C5" ||
-                        gameStateCalc[key].fieldName === "D6" 
-                    ) {
-                        if (gameStateCalc.A7.hasUserKing || gameStateCalc.B8.hasUserKing) {
-                            aiResult += 2;
-                        }
-                    }
-                }
             } else {
                 if (gameStateCalc[key].rowNumber === 1) {
                     aiResult += 0 
@@ -2182,19 +1457,6 @@ let calculateUserResult = (player, gameStateCalc) => {
             pawnCount += pawnBonus;
             opponentKingsCount++;
         } 
-
-        //if opponentKingCount = 1 and is in the corner and aiKingCount = 2 ===> userResult + 10...
-
-        if (aiKingNum === 2 && userKingNum === 1 && gameStateCalc[key].hasUserKing) {
-            if (
-                gameStateCalc[key].fieldName === "G1" ||
-                gameStateCalc[key].fieldName === "H2" ||
-                gameStateCalc[key].fieldName === "A7" ||
-                gameStateCalc[key].fieldName === "B8"
-            ) {
-                userResult += 10;
-            }
-        }
 
     }
 
@@ -3341,11 +2603,10 @@ let findMoveUser = (gameStateProp, step) => {
 let chooseBestMove = () => {
     
     console.log("user Player turn: ",userPlayerTurn);
-    console.log("setp limit before move:", stepLimit);
 
-    
     if (userPlayerTurn) {
         if (isForcedResponse || continueCaptureFrom != "none") {
+            
             if (continueCaptureFrom != "none") {
                 chooseFieldForcedMove();
             } else {
@@ -3354,44 +2615,11 @@ let chooseBestMove = () => {
                         document.getElementById(gameState[key].fieldName).addEventListener("click", chooseFieldForcedMove);
                     }
                 }
-                for (const key in gameStateSmall) {
-                    if (gameStateSmall[key].fieldName) {
-                        document.getElementById(gameStateSmall[key].fieldName).addEventListener("click", chooseFieldForcedMove);
-                    }
-                }
             }
         } else {
-            let userLost = findMoveUser(gameState, stepLimit);
-            if (userLost.lowestValue === 500) {
-                console.log("user lost");
-                resultTestContent.innerHTML = "YOU LOST";
-                resultTestContent.style.color = "rgb(199, 51, 1)";
-                resultTextDiv.style.display = "block";
-                clearBoard();
-                gameOn = false;
-                disableChoice();
-                return;
-            }
-
-
-
-            
-
-            if (offerDrawFunction()) {
-                drawTextContent.style.display = "inline"
-                buttonYes.style.display = "inline"
-                buttonNo.style.display = "inline"
-
-            }
-
             for (const key in gameState) {
                 if (gameState[key].fieldName) {
                     document.getElementById(gameState[key].fieldName).addEventListener("click", chooseField);
-                }
-            }
-            for (const key in gameStateSmall) {
-                if (gameStateSmall[key].fieldName) {
-                    document.getElementById(gameStateSmall[key].fieldName).addEventListener("click", chooseField);
                 }
             }
         }
@@ -3400,31 +2628,10 @@ let chooseBestMove = () => {
         isForcedResponse = false;
     } else {
 
-        
-        if (aiKingNum === 2 && userKingNum === 1) {
-            if (
-                gameState.G1.hasUserKing ||
-                gameState.H2.hasUserKing ||
-                gameState.A7.hasUserKing ||
-                gameState.B8.hasUserKing 
-            ) {
-                stepLimit = 4;
-                console.log("step limit is: ", stepLimit);
-            }
-        } 
-        
-        if ( aiKingNum === 2 && userKingNum === 1) {
-            if (gameState.E1.hasUserKing || gameState.H4.hasUserKing || gameState.A5.hasUserKing || gameState.D8.hasUserKing) {
-                stepLimit = 6;
-            }
-            
-        }
-
-        
-
         stepNumber = 1;
         let isForcedMove = findForcedMovesAi(gameState, "none", stepNumber);
         
+        ;
         if (isForcedMove.forcedMove) {
 
 
@@ -3461,8 +2668,6 @@ let chooseBestMove = () => {
 
             isForcedResponse = checkForForcedResponse(gameState, "none");
             console.log("is there forced capture in replay to AI move: ", isForcedResponse);
-
-            drawCountDown = drawLimit;
             
             chooseBestMove();
 
@@ -3470,17 +2675,6 @@ let chooseBestMove = () => {
         } else {
 
             let bestMove = findMoveAi(gameState, stepNumber);
-            let aiLost = findMoveAi(gameState, stepLimit - 1);
-            if (aiLost.highestValue === -500) {
-                console.log("AI lost");
-                resultTestContent.innerHTML = "YOU WON";
-                resultTestContent.style.color = "rgb(9, 104, 12)";
-                resultTextDiv.style.display = "block"
-                clearBoard();
-                gameOn = false;
-                disableChoice();
-                return;
-            }
             console.log(bestMove);
 
 
@@ -3498,7 +2692,6 @@ let chooseBestMove = () => {
                 
             }
             
-            drawCountDown--;
 
             drawBoard(gameState);
             userPlayerTurn = true;
@@ -3506,10 +2699,6 @@ let chooseBestMove = () => {
 
             isForcedResponse = checkForForcedResponse(gameState, "none");
             console.log("is there forced capture in replay to AI move: ", isForcedResponse);
-
-            if (isForcedResponse) {
-                drawCountDown = drawLimit;
-            }
             
             chooseBestMove();
             
@@ -3521,7 +2710,8 @@ let chooseBestMove = () => {
 
 // DOM manipulation (id: chessBoard)
 let drawBoard = (gameState) => {
-    
+
+        
     let fieldArray = [];
     let fieldArrays = [];
     let square;
@@ -3551,6 +2741,9 @@ let drawBoard = (gameState) => {
     let userPawnSmall = userPlayer === "white" ? whitePawnSmall : blackPawn180Small;
     let aiKingSmall =  aiPlayer === "white" ? whiteKing180Small : blackKingSmall;
     let userKingSmall =  userPlayer === "white" ? whiteKingSmall : blackKing180Small;
+
+    let chessBoardDiv = document.querySelector(".chessBoard");
+    let chessBoardDivSmall = document.querySelector(".chessBoardSmall");
 
     chessBoardDiv.innerHTML = null;
     chessBoardDivSmall.innerHTML = null;
@@ -3593,8 +2786,6 @@ let drawBoard = (gameState) => {
                 square = `<div class="squareDark" id=${fieldArrays[i][j].id}>${pawn}</div>`;
                 chessBoardDiv.innerHTML += squareLight;
                 chessBoardDiv.innerHTML += square;
-                // chessBoardDivSmall.innerHTML += squareLight;
-                // chessBoardDivSmall.innerHTML += square;
                 pawn = '<img></img>';
             }
         } else {
@@ -3613,8 +2804,6 @@ let drawBoard = (gameState) => {
                 square = `<div class="squareDark" id=${fieldArrays[i][j].id}>${pawn}</div>`;
                 chessBoardDiv.innerHTML += square;
                 chessBoardDiv.innerHTML += squareLight;
-                // chessBoardDivSmall.innerHTML += square;
-                // chessBoardDivSmall.innerHTML += squareLight;
                 pawn = '<img></img>';
             }
         }
@@ -3636,7 +2825,7 @@ let drawBoard = (gameState) => {
                     pawn = userKingSmall;
                 }
                 
-                square = `<div class="squareDark" id=${fieldArrays[i][j].id}Small>${pawn}</div>`;
+                square = `<div class="squareDark" id=${fieldArrays[i][j].id}>${pawn}</div>`;
                 chessBoardDivSmall.innerHTML += squareLight;
                 chessBoardDivSmall.innerHTML += square;
                 pawn = '<img></img>';
@@ -3654,7 +2843,7 @@ let drawBoard = (gameState) => {
                     pawn = userKingSmall;
                 }
 
-                square = `<div class="squareDark" id=${fieldArrays[i][j].id}Small>${pawn}</div>`;
+                square = `<div class="squareDark" id=${fieldArrays[i][j].id}>${pawn}</div>`;
                 chessBoardDivSmall.innerHTML += square;
                 chessBoardDivSmall.innerHTML += squareLight;
                 pawn = '<img></img>';
@@ -3672,143 +2861,16 @@ let drawBoard = (gameState) => {
 
 }
 
-let clearBoard = (redraw) => {
-    
-    for (const key in gameState) {
-        if (gameState[key].hasAiPawn || 
-            gameState[key].hasAiKing || 
-            gameState[key].hasUserPawn ||
-            gameState[key].hasUserKing) {
-                gameState[key].isFree = true;
-                gameState[key].hasAiPawn = false;
-                gameState[key].hasAiKing = false;
-                gameState[key].hasUserPawn = false;
-                gameState[key].hasUserKing = false;
-            }
-    }
 
-    if (redraw === 1) {
-        drawBoard(gameState);
-        gameOn = false;
-        disableChoice();
-    }
-}
+startGame(gameState);
 
-let offerDrawFunction = () => {
 
-    let offerDraw = false;
 
-    aiKingNum = 0;
-    userKingNum = 0;
-    totalPawnNumber = 0;
+console.log("user result", userResult);
+console.log("AI result", aiResult);
 
-    for (const key in gameState) {
-        if (gameState[key].hasAiKing) {
-            aiKingNum++;
-        } else if (gameState[key].hasUserKing) {
-            userKingNum++;
-        } else if (gameState[key].hasAiPawn || gameState[key].hasUserPawn) {
-            totalPawnNumber++;
-        }
-    }
 
-    if ((userKingNum - aiKingNum) * -1 <= 1 && drawCountDown < 0 && totalPawnNumber === 0) {
-        offerDraw = true;
-    }
-    
-    console.log("ai kings: ", aiKingNum, "user kings: ", userKingNum, "count down: ", drawCountDown);
 
-    return offerDraw;
-}
 
-let buttonStartGame = () => {
-    if (!gameOn) {
-        startGame(gameState);
-    }
-}
 
-let playerChooseSide = (side) => {
-    if (side === 1 && !gameOn) {
-        coinflip = 1;
-        playerChoseSide = true;
-        chooseColorBlackLink.classList.remove("active");
-        chooseColorWhiteLink.classList.add("active");
-        chooseColorRandomLink.classList.remove("active");
-        sessionStorage.setItem("color", "1");
-    } else if (side === 0 && !gameOn) {
-        coinflip = 0;
-        playerChoseSide = true;
-        chooseColorBlackLink.classList.add("active");
-        chooseColorWhiteLink.classList.remove("active");
-        chooseColorRandomLink.classList.remove("active");
-        sessionStorage.setItem("color", "0");
-    } else if (side === 2 && !gameOn) {
-        playerChoseSide = false;
-        chooseColorBlackLink.classList.remove("active");
-        chooseColorWhiteLink.classList.remove("active");
-        chooseColorRandomLink.classList.add("active");
-        sessionStorage.setItem("color", "2");
-    }
-}
 
-let chooseDifficulty = (level) => {
-    if (level === 0 && !gameOn) {
-        stepLimit = 4;
-        saveStepLimit = stepLimit;
-        chooseEasyLink.classList.add("active");
-        chooseHardLink.classList.remove("active");
-        sessionStorage.setItem("difficulty", "0");
-    } else if (level === 1 && !gameOn) {
-        stepLimit = 6;
-        saveStepLimit = stepLimit;
-        chooseHardLink.classList.add("active");
-        chooseEasyLink.classList.remove("active");
-        sessionStorage.setItem("difficulty", "1");
-    } 
-}
-
-let disableChoice = () => {
-    
-    if (gameOn) {
-        chooseColorBlackLink.classList.add("disabled");
-        chooseColorWhiteLink.classList.add("disabled");
-        chooseColorRandomLink.classList.add("disabled");
-        chooseEasyLink.classList.add("disabled");
-        chooseHardLink.classList.add("disabled");
-    } else {
-        chooseColorBlackLink.classList.remove("disabled");
-        chooseColorWhiteLink.classList.remove("disabled");
-        chooseColorRandomLink.classList.remove("disabled");
-        chooseEasyLink.classList.remove("disabled");
-        chooseHardLink.classList.remove("disabled");
-    }
-}
-
-let getSettings = () => {
-    chooseDifficulty(JSON.parse(sessionStorage.getItem("difficulty")));
-    playerChooseSide(JSON.parse(sessionStorage.getItem("color")));
-}
-
-let buttonNoAction = () => {
-    drawCountDown = drawLimit;
-    drawTextContent.style.display = "none"
-    buttonYes.style.display = "none"
-    buttonNo.style.display = "none"
-}
-
-let buttonYesAction = () => {
-    drawCountDown = drawLimit;
-    drawTextContent.style.display = "none"
-    buttonYes.style.display = "none"
-    buttonNo.style.display = "none"
-    resultTestContent.innerHTML = "IT'S A DRAW";
-    resultTestContent.style.color = "rgb(199, 51, 1)";
-    resultTextDiv.style.display = "block";
-    clearBoard();
-    gameOn = false;
-    disableChoice();
-}
-
-getSettings();
-
-drawBoard(gameState);
